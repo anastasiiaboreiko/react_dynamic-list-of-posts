@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import { Post } from '../types/Post';
 import { NewComment } from '../types/Comment';
+import PropTypes from 'prop-types';
 
 type Props = {
   selectedPost: Post;
@@ -66,7 +67,12 @@ export const NewCommentForm: React.FC<Props> = ({ selectedPost, onSubmit }) => {
 
     setIsSubmitting(true);
 
-    onSubmit({ name, email, body, postId: selectedPost.id })
+    onSubmit({
+      name: commentName,
+      email: commentEmail,
+      body: commentBody,
+      postId: selectedPost.id,
+    })
       .then(() => {
         setBody('');
         setHasNameError(false);
@@ -209,4 +215,18 @@ export const NewCommentForm: React.FC<Props> = ({ selectedPost, onSubmit }) => {
       </div>
     </form>
   );
+};
+
+const PostShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+});
+
+NewCommentForm.propTypes = {
+  // selectedPost обов'язковий об'єкт Post
+  selectedPost: PostShape.isRequired as unknown as PropTypes.Validator<Post>,
+  // функція onSubmit обов'язкова
+  onSubmit: PropTypes.func.isRequired,
 };

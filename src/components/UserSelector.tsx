@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User } from '../types/User';
 import cn from 'classnames';
+import PropTypes from 'prop-types';
 
 type Props = {
   users: User[];
@@ -75,4 +76,24 @@ export const UserSelector: React.FC<Props> = ({
       </div>
     </div>
   );
+};
+
+const UserShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+});
+
+const UserValidator = UserShape as unknown as PropTypes.Validator<User>;
+const NullableUserValidator = PropTypes.oneOfType([
+  UserShape,
+  PropTypes.oneOf([null]),
+]) as unknown as PropTypes.Validator<User | null | undefined>;
+
+UserSelector.propTypes = {
+  users: PropTypes.arrayOf(UserValidator)
+    .isRequired as unknown as PropTypes.Validator<User[]>,
+  selectedUser: NullableUserValidator,
+  onSelected: PropTypes.func.isRequired,
 };

@@ -4,6 +4,7 @@ import { NewCommentForm } from './NewCommentForm';
 import { Post } from '../types/Post';
 import { Comment, NewComment } from '../types/Comment';
 import * as commentService from '../services/comment';
+import PropTypes from 'prop-types';
 
 type Props = {
   selectedPost: Post | null;
@@ -46,14 +47,14 @@ export const PostDetails: React.FC<Props> = ({ selectedPost }) => {
   };
 
   const deleteComment = (id: number) => {
-    const previonusComments = comments;
+    const previousComments = comments;
 
     setComments(currentComments =>
       currentComments.filter(comment => comment.id !== id),
     );
 
     return commentService.deleteComment(id).catch(() => {
-      setComments(previonusComments);
+      setComments(previousComments);
       setError(true);
     });
   };
@@ -136,4 +137,15 @@ export const PostDetails: React.FC<Props> = ({ selectedPost }) => {
       </div>
     </div>
   );
+};
+
+const PostShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+});
+
+PostDetails.propTypes = {
+  selectedPost: PostShape,
 };

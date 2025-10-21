@@ -16,11 +16,11 @@ export const PostDetails: React.FC<Props> = ({ selectedPost }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   function loadComments() {
-    setLoading(true);
-    setError(false);
-    setIsOpen(false);
-
     if (selectedPost) {
+      setLoading(true);
+      setError(false);
+      setIsOpen(false);
+
       commentService
         .getPostComments(selectedPost.id)
         .then(setComments)
@@ -46,12 +46,14 @@ export const PostDetails: React.FC<Props> = ({ selectedPost }) => {
   };
 
   const deleteComment = (id: number) => {
+    const previonusComments = comments;
+
     setComments(currentComments =>
       currentComments.filter(comment => comment.id !== id),
     );
 
     return commentService.deleteComment(id).catch(() => {
-      setComments(comments);
+      setComments(previonusComments);
       setError(true);
     });
   };

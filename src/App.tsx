@@ -85,7 +85,7 @@ export const App = () => {
                 {selectedUser && !error && posts && posts?.length > 0 && (
                   <PostsList
                     posts={posts}
-                    onToggglePost={setSelectedPost}
+                    onTogglePost={setSelectedPost}
                     selectedPost={selectedPost}
                   />
                 )}

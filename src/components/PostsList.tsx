@@ -4,19 +4,19 @@ import cn from 'classnames';
 
 type Props = {
   posts: Post[] | null;
-  onToggglePost: (post: Post | null) => void;
+  onTogglePost: (post: Post | null) => void;
   selectedPost: Post | null;
 };
 
 export const PostsList: React.FC<Props> = ({
   posts,
-  onToggglePost,
+  onTogglePost,
   selectedPost,
 }) => {
   const handlePostButtonToggle = (post: Post) => {
     const isSelected = selectedPost?.id === post.id;
 
-    return !isSelected ? onToggglePost(post) : onToggglePost(null);
+    return !isSelected ? onTogglePost(post) : onTogglePost(null);
   };
 
   return (
